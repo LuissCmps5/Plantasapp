@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'login.dart';  // Asegúrate de importar la página de login
+import 'login.dart';  // Asegúrate de importar la página de 
 
 class UsuarioPage extends StatelessWidget {
   final SupabaseClient _supabase = Supabase.instance.client;
