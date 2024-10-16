@@ -1,1 +1,3 @@
-<h1>Applicacion para plantas</h1>
+# plantasapp
+
+A new Flutter project.
