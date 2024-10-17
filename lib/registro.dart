@@ -18,7 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final role = _roleController.text;
 
     try {
-      // Crear usuario en Supabase auth
+      // Crear usuario en Supabase autorizo
       final response = await _supabase.auth.signUp(
         email: email,
         password: password,
