@@ -28,6 +28,9 @@ class _PlantListPageState extends State<PlantListPage> {
       setState(() {
         plants = response.data;
       });
+    } else {
+      // Manejo de errores
+      print('Error fetching plants: ${response.error!.message}');
     }
   }
 
@@ -44,6 +47,9 @@ class _PlantListPageState extends State<PlantListPage> {
     if (response.error == null) {
       fetchPlants();
       clearInputs();
+    } else {
+      // Manejo de errores
+      print('Error adding plant: ${response.error!.message}');
     }
   }
 
@@ -60,6 +66,9 @@ class _PlantListPageState extends State<PlantListPage> {
     if (response.error == null) {
       fetchPlants();
       clearInputs();
+    } else {
+      // Manejo de errores
+      print('Error updating plant: ${response.error!.message}');
     }
   }
 
@@ -67,6 +76,9 @@ class _PlantListPageState extends State<PlantListPage> {
     final response = await Supabase.instance.client.from('plants').delete().eq('id', id).execute();
     if (response.error == null) {
       fetchPlants();
+    } else {
+      // Manejo de errores
+      print('Error deleting plant: ${response.error!.message}');
     }
   }
 
