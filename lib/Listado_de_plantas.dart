@@ -29,7 +29,6 @@ class _PlantListPageState extends State<PlantListPage> {
         plants = response.data;
       });
     } else {
-      // Manejo de errores
       print('Error fetching plants: ${response.error!.message}');
     }
   }
@@ -43,12 +42,11 @@ class _PlantListPageState extends State<PlantListPage> {
       'tamaño': _sizeController.text,
       'caracteristica_distintiva': _distinctiveFeatureController.text,
     }).execute();
-    
+
     if (response.error == null) {
       fetchPlants();
       clearInputs();
     } else {
-      // Manejo de errores
       print('Error adding plant: ${response.error!.message}');
     }
   }
@@ -67,7 +65,6 @@ class _PlantListPageState extends State<PlantListPage> {
       fetchPlants();
       clearInputs();
     } else {
-      // Manejo de errores
       print('Error updating plant: ${response.error!.message}');
     }
   }
@@ -77,7 +74,6 @@ class _PlantListPageState extends State<PlantListPage> {
     if (response.error == null) {
       fetchPlants();
     } else {
-      // Manejo de errores
       print('Error deleting plant: ${response.error!.message}');
     }
   }
@@ -171,4 +167,12 @@ class _PlantListPageState extends State<PlantListPage> {
       ),
     );
   }
+}
+
+extension on PostgrestFilterBuilder {
+  execute() {}
+}
+
+extension on PostgrestFilterBuilder<PostgrestList> {
+  execute() {}
 }
