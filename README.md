@@ -32,4 +32,20 @@
 <p>
     Filters will be implemented so that users can search for plants by species or type, facilitating the management and search for them. Additionally, there will be a notification system to inform users about the proper care of their plants.
 </p>
+<h1>Application Description</h1>
+<p>
+    The plant care management application allows users to register their plants and receive notifications on proper care
+</p>
+<p>
+    The application includes authentication with Supabase
+    There will be a user role that allows users to view their plants and an administrator role that allows creating modifying viewing and deleting plants
+</p>
+<p>
+    There will be a CRUD system to manage the plants and care tasks such as watering and pruning
+    Each plant must contain its common name scientific name family or species type of plant which can be vegetable or fruit size and distinctive characteristic
+</p>
+<p>
+    Administrators will have the ability to add new plant species to the system
+    Additionally a filter will be implemented so that users can search for plants by species or type
+</p>
 
