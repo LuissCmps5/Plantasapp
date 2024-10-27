@@ -15,4 +15,8 @@
 </ul>
 
 <p>Each plant includes detailed information such as common name, scientific name, family or species, type of plant (vegetable or fruit), size, and distinctive features. To make searching easier, users can apply filters by species or type of plant.</p>
+<h1> Application Objective</h1>
+<p>
+    The plant care management application aims to allow users to register their plants and receive notifications on how to take proper care of them For this, it includes authentication with Supabase that allows for two different roles users who can view their plants and administrators who have the ability to create modify view and delete plants In addition the application will feature a CRUD system to manage plants and care tasks such as watering or pruning Each plant must include information such as its common name scientific name family or species type of plant which can be vegetable or fruit size and a distinctive characteristic It will also implement the option to filter plants by species or type which will facilitate the search and management of them Administrators will have the authority to add new plant species to the system thus enriching the database and enhancing the user experience
+</p>
 
