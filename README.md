@@ -19,4 +19,17 @@
 <p>
     The plant care management application aims to allow users to register their plants and receive notifications on how to take proper care of them For this, it includes authentication with Supabase that allows for two different roles users who can view their plants and administrators who have the ability to create modify view and delete plants In addition the application will feature a CRUD system to manage plants and care tasks such as watering or pruning Each plant must include information such as its common name scientific name family or species type of plant which can be vegetable or fruit size and a distinctive characteristic It will also implement the option to filter plants by species or type which will facilitate the search and management of them Administrators will have the authority to add new plant species to the system thus enriching the database and enhancing the user experience
 </p>
+<h1>System Requirements for the Plant Care Management Application</h1>
+<p>
+    The application will be developed using Flutter, allowing for an attractive and functional user interface on both iOS and Android devices. Authentication will be implemented with Supabase to manage user access. There will be a user role for users to view their plants and an administrator role that will allow creating, modifying, viewing, and deleting plants.
+</p>
+<p>
+    A database will store information about the plants and care tasks. Each plant entry must include its common name, scientific name, family or species, type of plant which can be a vegetable or fruit, size, and distinctive characteristic.
+</p>
+<p>
+    There will be a CRUD system to allow administrators to manage the plants and care tasks such as watering and pruning, as well as an option for administrators to add new plant species to the system.
+</p>
+<p>
+    Filters will be implemented so that users can search for plants by species or type, facilitating the management and search for them. Additionally, there will be a notification system to inform users about the proper care of their plants.
+</p>
 
