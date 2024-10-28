@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'administrador.dart';
-import 'usuario.dart';
-import 'registro.dart';
+import 'package:plantasapp/supabase_service.dart';
+import 'register.dart';
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,49 +9,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  Future<void> _login() async {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-
-    try {
-      // Autenticación con correo y contraseña
-      final response = await _supabase.auth.signInWithPassword(
-        email: email,
-        password: password,
+  Future<void> login() async {
+    final response = await SupabaseService.login(
+      emailController.text,
+      passwordController.text,
+    );
+    if (response) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
-
-      if (response != null) {
-        // Obtener el perfil del usuario y su rol
-        final userId = response.user!.id;
-        final profile = await _supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', userId)
-            .single();
-
-        final role = profile['role'];
-
-        // Redirigir según el rol
-        if (role == 'Administrador') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => AdministradorPage()),
-          );
-        } else if (role == 'Usuario') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => UsuarioPage()),
-          );
-        } else {
-          throw 'Rol no reconocido';
-        }
-      }
-    } catch (error) {
-      print('Error de autenticación: $error');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error en la autenticación')));
     }
   }
 
@@ -64,28 +35,10 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Correo'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Contraseña'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Iniciar Sesión'),
-            ),
-            ElevatedButton(onPressed: () {
-            // Navega a la página de registro
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterPage()),
-            );
-          },
-          child: Text('Ir a Registro'),)
+            TextField(controller: emailController, decoration: InputDecoration(labelText: 'Email')),
+            TextField(controller: passwordController, decoration: InputDecoration(labelText: 'Contraseña'), obscureText: true),
+            ElevatedButton(onPressed: login, child: Text('Iniciar Sesión')),
+            TextButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage())), child: Text('Registrarse')),
           ],
         ),
       ),
