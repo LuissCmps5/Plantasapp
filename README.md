@@ -1,5 +1,5 @@
 # 	Aplicación de Gestión de Cuidado de Plantas
-
+<img src="https://upen.milaulas.com/pluginfile.php/1/core_admin/logocompact/300x300/1647098022/89925310_2623778167869379_5016977600837320704_n.jpg" alt="Descripción de la imagen" width="600">
 <p><strong>Your Name </strong>Luis Enrique Campos Ontiveros, Diego Llamas Alcantar </p>
 <p><strong>Course:</strong> Mobile Applications 2</p>
 <p><strong>Submission: </strong>October 28, 2024</p>
@@ -48,4 +48,3 @@
     Administrators will have the ability to add new plant species to the system
     Additionally a filter will be implemented so that users can search for plants by species or type
 </p>
-
