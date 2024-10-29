@@ -726,7 +726,34 @@ class _PlantListPageState extends State<PlantListPage> {
   }
 }
     </code></pre>
+
+    
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+</head>
+<body>
+    <h1>Conclusion</h1>
+    <p>
+        The creation of the plant care management application has brought several challenges during development. From user authentication with Supabase to creating a user-friendly interface, every part of the code requires careful attention and constant testing.
+    </p>
+    <p>
+        One of the biggest issues has been managing user roles. Ensuring that administrators can create, modify, and delete plants, while regular users can only view their own plants, has required detailed planning. This meant we had to implement conditions and validations in the code so that each user has access only to what they need.
+    </p>
+    <p>
+        Additionally, developing the CRUD (Create, Read, Update, Delete) functions for plants and care tasks has been a challenge. The complexity increased when trying to organize information about each plant, which includes the common name, scientific name, type of plant, and distinctive features. Using Supabase as the database also presented its own difficulties, as we needed to understand how it works and what its limitations are.
+    </p>
+    <p>
+        Implementing filters to search for plants by species or type has also added more complexity to the system. Not only did we have to develop the appropriate logic to filter the data, but we also had to ensure that the user interface was easy to understand and use so that users could take advantage of this feature without any issues.
+    </p>
+</body>
+</html>
+
 
 
