@@ -350,6 +350,312 @@ class _MyHomePageState extends State<MyHomePage> {
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Record</h2>
+    <pre><code>
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _roleController = TextEditingController();
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  Future<void> _register() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final role = _roleController.text;
+
+    try {
+      // Crear usuario en Supabase auth
+      final response = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
+
+      final userId = response.user?.id;
+
+      if (userId != null) {
+        // Insertar el rol en la tabla de perfiles
+        await _supabase.from('profiles').insert({
+          'id': userId,
+          'role': role, // alumno o maestro
+        });
+
+        print('Usuario registrado exitosamente con rol: $role');
+      }
+    } catch (error) {
+      print('Error al registrar usuario: $error');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Registro de Usuario')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Correo'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Contraseña'),
+              obscureText: true,
+            ),
+            TextField(
+              controller: _roleController,
+              decoration: InputDecoration(labelText: 'Rol (alumno o maestro)'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _register,
+              child: Text('Registrar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+    </code></pre>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
+    <h2>Plant list</h2>
+    <pre><code>
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class PlantListPage extends StatefulWidget {
+  @override
+  _PlantListPageState createState() => _PlantListPageState();
+}
+
+class _PlantListPageState extends State<PlantListPage> {
+  List<dynamic> plants = [];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _scientificNameController = TextEditingController();
+  final TextEditingController _familyController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _sizeController = TextEditingController();
+  final TextEditingController _distinctiveFeatureController = TextEditingController();
+  int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPlants();
+  }
+
+  Future<void> fetchPlants() async {
+    final response = await Supabase.instance.client.from('plants').select().execute();
+    if (response.error == null) {
+      setState(() {
+        plants = response.data;
+      });
+    }
+  }
+
+  Future<void> addPlant() async {
+    final response = await Supabase.instance.client.from('plants').insert({
+      'nombre_comun': _nameController.text,
+      'nombre_cientifico': _scientificNameController.text,
+      'familia': _familyController.text,
+      'tipo': _typeController.text,
+      'tamaño': _sizeController.text,
+      'caracteristica_distintiva': _distinctiveFeatureController.text,
+    }).execute();
+    
+    if (response.error == null) {
+      fetchPlants();
+      clearInputs();
+    }
+  }
+
+  Future<void> updatePlant(String id) async {
+    final response = await Supabase.instance.client.from('plants').update({
+      'nombre_comun': _nameController.text,
+      'nombre_cientifico': _scientificNameController.text,
+      'familia': _familyController.text,
+      'tipo': _typeController.text,
+      'tamaño': _sizeController.text,
+      'caracteristica_distintiva': _distinctiveFeatureController.text,
+    }).eq('id', id).execute();
+
+    if (response.error == null) {
+      fetchPlants();
+      clearInputs();
+    }
+  }
+
+  Future<void> deletePlant(String id) async {
+    final response = await Supabase.instance.client.from('plants').delete().eq('id', id).execute();
+    if (response.error == null) {
+      fetchPlants();
+    }
+  }
+
+  void clearInputs() {
+    _nameController.clear();
+    _scientificNameController.clear();
+    _familyController.clear();
+    _typeController.clear();
+    _sizeController.clear();
+    _distinctiveFeatureController.clear();
+    selectedIndex = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Lista de Plantas')),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _nameController, decoration: InputDecoration(labelText: 'Nombre Común')),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _scientificNameController, decoration: InputDecoration(labelText: 'Nombre Científico')),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _familyController, decoration: InputDecoration(labelText: 'Familia')),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _typeController, decoration: InputDecoration(labelText: 'Tipo')),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _sizeController, decoration: InputDecoration(labelText: 'Tamaño')),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(controller: _distinctiveFeatureController, decoration: InputDecoration(labelText: 'Características Distintivas')),
+          ),
+          Row(
+            children: [
+              ElevatedButton(onPressed: addPlant, child: Text('Agregar')),
+              SizedBox(width: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (selectedIndex != null) {
+                    updatePlant(plants[selectedIndex!]['id']);
+                  }
+                },
+                child: Text('Actualizar'),
+              ),
+              SizedBox(width: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (selectedIndex != null) {
+                    deletePlant(plants[selectedIndex!]['id']);
+                  }
+                },
+                child: Text('Eliminar'),
+              ),
+            ],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: plants.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(plants[index]['nombre_comun']),
+                  subtitle: Text(plants[index]['nombre_cientifico']),
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = index;
+                      _nameController.text = plants[index]['nombre_comun'];
+                      _scientificNameController.text = plants[index]['nombre_cientifico'];
+                      _familyController.text = plants[index]['familia'];
+                      _typeController.text = plants[index]['tipo'];
+                      _sizeController.text = plants[index]['tamaño'];
+                      _distinctiveFeatureController.text = plants[index]['caracteristica_distintiva'];
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+    </code></pre>
+</body>
+</html>
 
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>User</h2>
+    <pre><code>
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'login.dart';  // Asegúrate de importar la página de 
 
+class UsuarioPage extends StatelessWidget {
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Página del Usuario'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              // Cerrar sesión dentro del onPressed
+              await _supabase.auth.signOut(); 
+              // Redirigir al login
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+        ],
+      ),
+      body: Center(
+        child: Text('Bienvenido Usuario', style: TextStyle(fontSize: 24)),
+      ),
+    );
+  }
+}
+    </code></pre>
+</body>
+</html>
